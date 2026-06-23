@@ -1,0 +1,41 @@
+export interface Ingredient {
+  quantity: number | null;
+  unit: string;
+  description: string;
+}
+
+export interface RecipeDetail {
+  id: string;
+  title: string;
+  publisher: string;
+  image_url: string;
+  servings: number;
+  cooking_time: number;
+  source_url: string;
+  ingredients: Ingredient[];
+}
+
+interface ForkifyResponse {
+  data: {
+    recipe: RecipeDetail;
+  };
+}
+
+export async function fetchRecipeById(
+  id: string
+): Promise<RecipeDetail> {
+  const response = await fetch(
+    `https://forkify-api.jonas.io/api/v2/recipes/${id}`
+  );
+
+  if (!response.ok) {
+    throw new Error(
+      "Failed to fetch recipe"
+    );
+  }
+
+  const data: ForkifyResponse =
+    await response.json();
+
+  return data.data.recipe;
+}
