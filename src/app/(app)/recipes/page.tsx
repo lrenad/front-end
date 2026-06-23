@@ -7,7 +7,7 @@ export type Recipe = {
   image_url: string;
 };
 
-async function getRecipes(search = "pizza") {
+async function getRecipes(search = "pasta") {
   const res = await fetch(
     `https://forkify-api.jonas.io/api/v2/recipes?search=${search}`,
     {

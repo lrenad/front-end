@@ -1,6 +1,8 @@
-"use client"; //client comp.
+"use client";
 
-import { useState } from "react"; //hook
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 type Recipe = {
   id: string;
@@ -16,23 +18,35 @@ type Props = {
 export default function RecipeSearch({
   initialRecipes,
 }: Props) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const initialSearch =
+    searchParams.get("search") || "";
+
   const [recipes, setRecipes] =
     useState(initialRecipes);
 
   const [searchTerm, setSearchTerm] =
-    useState("");
+    useState(initialSearch);
 
   const [loading, setLoading] =
     useState(false);
 
-  async function handleSearch() {
-    if (!searchTerm.trim()) return;
+  async function handleSearch(
+    term = searchTerm
+  ) {
+    if (!term.trim()) return;
 
     try {
       setLoading(true);
 
+      router.push(
+        `/recipes?search=${term}`
+      );
+
       const res = await fetch(
-        `https://forkify-api.jonas.io/api/v2/recipes?search=${searchTerm}`
+        `https://forkify-api.jonas.io/api/v2/recipes?search=${term}`
       );
 
       const data = await res.json();
@@ -44,6 +58,12 @@ export default function RecipeSearch({
       setLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (!initialSearch) return;
+
+    handleSearch(initialSearch);
+  }, []);
 
   return (
     <div>
@@ -59,20 +79,25 @@ export default function RecipeSearch({
         />
 
         <button
-          onClick={handleSearch}
-          className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-900"
+          onClick={() => handleSearch()}
+          className="bg-red-700 text-black px-4 py-2 rounded-lg hover:bg-red-900"
         >
           Search
         </button>
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && (
+        <p className="text-red-900">
+          Loading...
+        </p>
+      )}
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 text-red-900">
         {recipes.map((recipe) => (
-          <div
+          <Link
             key={recipe.id}
-            className="border rounded-lg overflow-hidden shadow"
+            href={`/recipes/${recipe.id}`}
+            className="border rounded-lg overflow-hidden shadow block hover:shadow-lg transition"
           >
             <img
               src={recipe.image_url}
@@ -85,11 +110,11 @@ export default function RecipeSearch({
                 {recipe.title}
               </h2>
 
-              <p className="text-gray-500">
+              <p className="text-black">
                 {recipe.publisher}
               </p>
             </div>
-          </div>
+          </Link>
         ))}
       </div>
     </div>
