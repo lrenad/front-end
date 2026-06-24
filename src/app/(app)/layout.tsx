@@ -15,6 +15,8 @@ export default function AppLayout({
             <Link className="hover:bg-red-700" href="/">Home</Link>
             <Link className="hover:bg-red-700" href="/recipes">Recipes</Link>
             <Link className="hover:bg-red-700" href="/contact">Contact</Link>
+            <Link href="/recipes/new">Submit a Recipe</Link>
+            <Link href="/recipes/submitted">Submitted Recipes</Link>
           </nav>
         </div>
       </header>
