@@ -14,6 +14,7 @@ export default function AppLayout({
           <nav className="flex gap-4">
             <Link className="hover:bg-red-700" href="/">Home</Link>
             <Link className="hover:bg-red-700" href="/recipes">Recipes</Link>
+            <Link className="hover:bg-red-700" href="/contact">Contact</Link>
           </nav>
         </div>
       </header>

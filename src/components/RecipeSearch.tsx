@@ -80,7 +80,7 @@ export default function RecipeSearch({
 
         <button
           onClick={() => handleSearch()}
-          className="bg-red-700 text-black px-4 py-2 rounded-lg hover:bg-red-900"
+          className="bg-red-700 text-white px-4 py-2 rounded-lg hover:bg-red-900"
         >
           Search
         </button>
@@ -97,7 +97,7 @@ export default function RecipeSearch({
           <Link
             key={recipe.id}
             href={`/recipes/${recipe.id}`}
-            className="border rounded-lg overflow-hidden shadow block hover:shadow-lg transition"
+            className="border rounded-lg overflow-hidden shadow block hover:shadow-lg transition bg-white"
           >
             <img
               src={recipe.image_url}
