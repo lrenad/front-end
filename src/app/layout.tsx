@@ -1,4 +1,7 @@
 import "./globals.css";
+import { FavoritesProvider } from "@/context/FavoritesContext";
+import { ThemeProvider } from "@/context/ThemeContext";
+import { LanguageProvider } from "@/context/LanguageContext";
 
 export const metadata = {
   title: "Recipe Explorer",
@@ -12,7 +15,15 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body className="min-h-screen">
+        <ThemeProvider>
+          <LanguageProvider>
+            <FavoritesProvider>
+              {children}
+            </FavoritesProvider>
+          </LanguageProvider>
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

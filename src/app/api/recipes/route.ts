@@ -10,33 +10,30 @@ export interface StoredRecipe
   submittedAt: string;
 }
 
-const submittedRecipes: StoredRecipe[] =
-  [];
+const recipes: StoredRecipe[] = [];
 
 export async function GET() {
   return NextResponse.json(
     {
-      count: submittedRecipes.length,
-      recipes: submittedRecipes,
+      count: recipes.length,
+      recipes,
     },
-    { status: 200 }
+    {
+      status: 200,
+    }
   );
 }
 
-export async function POST(
-  request: Request
-) {
+export async function POST(request: Request) {
   const body = await request.json();
 
-  const result =
-    recipeSchema.safeParse(body);
+  const result = recipeSchema.safeParse(body);
 
   if (!result.success) {
     return NextResponse.json(
       {
         errors:
-          result.error.flatten()
-            .fieldErrors,
+          result.error.flatten().fieldErrors,
       },
       {
         status: 422,
@@ -51,7 +48,7 @@ export async function POST(
       new Date().toISOString(),
   };
 
-  submittedRecipes.push(recipe);
+  recipes.push(recipe);
 
   return NextResponse.json(recipe, {
     status: 201,

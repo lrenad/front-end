@@ -1,6 +1,6 @@
 export default function Loading() {
   return (
-    <p className="text-xl text-black">
+    <p className="text-xl">
       Loading recipe details...
     </p>
   );
